@@ -92,7 +92,7 @@ body {
   transition: all 200ms;
 }
 
-.toast.True {
+.toast.remove {
   opacity: 0;
 }
 

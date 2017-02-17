@@ -6,6 +6,14 @@ var _user$project$Toast_Types$Model = F2(
 	function (a, b) {
 		return {toasts: a, currentTime: b};
 	});
+var _user$project$Toast_Types$DeleteToast = F2(
+	function (a, b) {
+		return {ctor: 'DeleteToast', _0: a, _1: b};
+	});
+var _user$project$Toast_Types$FadeOutToast = F2(
+	function (a, b) {
+		return {ctor: 'FadeOutToast', _0: a, _1: b};
+	});
 var _user$project$Toast_Types$Tick = function (a) {
 	return {ctor: 'Tick', _0: a};
 };

@@ -24,3 +24,5 @@ type Msg
     = AddToast Toast
     | ClickToast Toast
     | Tick Time
+    | FadeOutToast Toast ()
+    | DeleteToast Toast ()

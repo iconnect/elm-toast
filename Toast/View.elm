@@ -3,13 +3,13 @@ module Toast.View exposing (..)
 import Toast.Types exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, src, id)
+import Html.Attributes exposing (class, src, id, classList)
 import Html.Events exposing (onClick)
 
 
 viewToast : Toast -> Html Msg
 viewToast toast =
-    div [ class ("toast " ++ (toString toast.pendingDelete))]
+    div [ classList [ ("toast", True), ("remove", toast.pendingDelete) ] ]
         [ div [ class "toast-content green" ]
             [ div [ class "toast-header" ]
                 [ text toast.title ]

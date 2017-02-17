@@ -1,14 +1,21 @@
-var _user$project$Toast_Update$isExpired = F2(
-	function (time, toast) {
-		return _elm_lang$core$Native_Utils.cmp(time, toast.expires) > 0;
+var _user$project$Toast_Update$changeClass = F2(
+	function (newToast, toast) {
+		return _elm_lang$core$Native_Utils.eq(newToast, toast) ? _elm_lang$core$Native_Utils.update(
+			toast,
+			{pendingDelete: true}) : toast;
 	});
-var _user$project$Toast_Update$mutateToast = F2(
-	function (time, toast) {
-		return toast.pendingDelete ? _elm_lang$core$Maybe$Nothing : (A2(_user$project$Toast_Update$isExpired, time, toast) ? _elm_lang$core$Maybe$Just(
-			_elm_lang$core$Native_Utils.update(
-				toast,
-				{pendingDelete: true})) : _elm_lang$core$Maybe$Just(toast));
-	});
+var _user$project$Toast_Update$deleteToast = function (toast) {
+	return A2(
+		_elm_lang$core$Task$perform,
+		_user$project$Toast_Types$DeleteToast(toast),
+		_elm_lang$core$Process$sleep(5000));
+};
+var _user$project$Toast_Update$fadeOutToast = function (toast) {
+	return A2(
+		_elm_lang$core$Task$perform,
+		_user$project$Toast_Types$FadeOutToast(toast),
+		_elm_lang$core$Process$sleep(4800));
+};
 var _user$project$Toast_Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -31,21 +38,51 @@ var _user$project$Toast_Update$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{toasts: newToasts}),
-					_1: _elm_lang$core$Platform_Cmd$none
+					_1: _elm_lang$core$Platform_Cmd$batch(
+						{
+							ctor: '::',
+							_0: _user$project$Toast_Update$fadeOutToast(newToast),
+							_1: {
+								ctor: '::',
+								_0: _user$project$Toast_Update$deleteToast(newToast),
+								_1: {ctor: '[]'}
+							}
+						})
 				};
 			case 'ClickToast':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			default:
-				var _p1 = _p0._0;
+			case 'Tick':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{currentTime: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'FadeOutToast':
 				var newToasts = A2(
-					_elm_lang$core$List$filterMap,
-					_user$project$Toast_Update$mutateToast(_p1),
+					_elm_lang$core$List$map,
+					_user$project$Toast_Update$changeClass(_p0._0),
 					model.toasts);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{currentTime: _p1, toasts: newToasts}),
+						{toasts: newToasts}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				var newToasts = A2(
+					_elm_lang$core$List$filter,
+					function (t) {
+						return !_elm_lang$core$Native_Utils.eq(t.expires, _p0._0.expires);
+					},
+					model.toasts);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{toasts: newToasts}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
