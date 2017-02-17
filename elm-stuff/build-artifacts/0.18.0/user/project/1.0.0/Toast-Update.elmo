@@ -1,24 +1,52 @@
+var _user$project$Toast_Update$isExpired = F2(
+	function (time, toast) {
+		return _elm_lang$core$Native_Utils.cmp(time, toast.expires) > 0;
+	});
+var _user$project$Toast_Update$mutateToast = F2(
+	function (time, toast) {
+		return toast.pendingDelete ? _elm_lang$core$Maybe$Nothing : (A2(_user$project$Toast_Update$isExpired, time, toast) ? _elm_lang$core$Maybe$Just(
+			_elm_lang$core$Native_Utils.update(
+				toast,
+				{pendingDelete: true})) : _elm_lang$core$Maybe$Just(toast));
+	});
 var _user$project$Toast_Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		if (_p0.ctor === 'AddToast') {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
+		switch (_p0.ctor) {
+			case 'AddToast':
+				var expiresAt = model.currentTime + (5 * _elm_lang$core$Time$second);
+				var newToast = _elm_lang$core$Native_Utils.update(
+					_p0._0,
+					{expires: expiresAt});
+				var newToasts = A2(
+					_elm_lang$core$Basics_ops['++'],
+					model.toasts,
 					{
-						toasts: A2(
-							_elm_lang$core$Basics_ops['++'],
-							model.toasts,
-							{
-								ctor: '::',
-								_0: _p0._0,
-								_1: {ctor: '[]'}
-							})
-					}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		} else {
-			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+						ctor: '::',
+						_0: newToast,
+						_1: {ctor: '[]'}
+					});
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{toasts: newToasts}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ClickToast':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			default:
+				var _p1 = _p0._0;
+				var newToasts = A2(
+					_elm_lang$core$List$filterMap,
+					_user$project$Toast_Update$mutateToast(_p1),
+					model.toasts);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{currentTime: _p1, toasts: newToasts}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});

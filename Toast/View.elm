@@ -9,7 +9,7 @@ import Html.Events exposing (onClick)
 
 viewToast : Toast -> Html Msg
 viewToast toast =
-    div [ class "toast" ]
+    div [ class ("toast " ++ (toString toast.pendingDelete))]
         [ div [ class "toast-content green" ]
             [ div [ class "toast-header" ]
                 [ text toast.title ]

@@ -5,4 +5,4 @@ import Toast.Types exposing (..)
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model [], Cmd.none )
+    ( Model [] 0, Cmd.none )

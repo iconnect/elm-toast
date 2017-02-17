@@ -12,8 +12,18 @@ var _user$project$Toast_Ports$notify = _elm_lang$core$Native_Platform.incomingPo
 							return A2(
 								_elm_lang$core$Json_Decode$andThen,
 								function (style) {
-									return _elm_lang$core$Json_Decode$succeed(
-										{title: title, body: body, url: url, style: style});
+									return A2(
+										_elm_lang$core$Json_Decode$andThen,
+										function (expires) {
+											return A2(
+												_elm_lang$core$Json_Decode$andThen,
+												function (pendingDelete) {
+													return _elm_lang$core$Json_Decode$succeed(
+														{title: title, body: body, url: url, style: style, expires: expires, pendingDelete: pendingDelete});
+												},
+												A2(_elm_lang$core$Json_Decode$field, 'pendingDelete', _elm_lang$core$Json_Decode$bool));
+										},
+										A2(_elm_lang$core$Json_Decode$field, 'expires', _elm_lang$core$Json_Decode$float));
 								},
 								A2(_elm_lang$core$Json_Decode$field, 'style', _elm_lang$core$Json_Decode$string));
 						},
@@ -39,6 +49,10 @@ var _user$project$Toast_Ports$subscriptions = function (model) {
 		{
 			ctor: '::',
 			_0: _user$project$Toast_Ports$notify(_user$project$Toast_Types$AddToast),
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: A2(_elm_lang$core$Time$every, 200, _user$project$Toast_Types$Tick),
+				_1: {ctor: '[]'}
+			}
 		});
 };

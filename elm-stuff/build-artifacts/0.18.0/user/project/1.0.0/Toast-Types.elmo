@@ -1,9 +1,13 @@
-var _user$project$Toast_Types$Toast = F4(
-	function (a, b, c, d) {
-		return {title: a, body: b, url: c, style: d};
+var _user$project$Toast_Types$Toast = F6(
+	function (a, b, c, d, e, f) {
+		return {title: a, body: b, url: c, style: d, expires: e, pendingDelete: f};
 	});
-var _user$project$Toast_Types$Model = function (a) {
-	return {toasts: a};
+var _user$project$Toast_Types$Model = F2(
+	function (a, b) {
+		return {toasts: a, currentTime: b};
+	});
+var _user$project$Toast_Types$Tick = function (a) {
+	return {ctor: 'Tick', _0: a};
 };
 var _user$project$Toast_Types$ClickToast = function (a) {
 	return {ctor: 'ClickToast', _0: a};
