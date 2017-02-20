@@ -1,10 +1,11 @@
 module Toast.View exposing (..)
 
 import Toast.Types exposing (..)
-
+import Uuid as Uuid
+import Dict as Dict
 import Html exposing (..)
 import Html.Attributes exposing (class, src, id, classList)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onClick, onMouseEnter, onMouseLeave)
 
 
 viewToast : Toast -> Html Msg
@@ -19,12 +20,12 @@ viewToast toast =
         ]
 
 
-viewToasts : Toasts -> List (Html Msg)
+viewToasts : Dict.Dict comparable Toast -> List (Html Msg)
 viewToasts toasts =
-    List.map viewToast toasts
+    List.map (\(_, toast) -> viewToast toast) (Dict.toList toasts)
 
 
 view : Model -> Html Msg
 view model =
-    div [ class "top-right", id "toast-container" ]
-        <| viewToasts model.toasts
+    div [ class "top-right", id "toast-container", onMouseEnter HoverToasts, onMouseLeave UnhoverToasts ]
+        <| viewToasts model.toastsDict

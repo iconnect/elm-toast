@@ -2,10 +2,12 @@ var _user$project$Toast_Types$Toast = F6(
 	function (a, b, c, d, e, f) {
 		return {title: a, body: b, url: c, style: d, expires: e, pendingDelete: f};
 	});
-var _user$project$Toast_Types$Model = F2(
-	function (a, b) {
-		return {toasts: a, currentTime: b};
+var _user$project$Toast_Types$Model = F4(
+	function (a, b, c, d) {
+		return {toasts: a, currentTime: b, hovering: c, toastsDict: d};
 	});
+var _user$project$Toast_Types$UnhoverToasts = {ctor: 'UnhoverToasts'};
+var _user$project$Toast_Types$HoverToasts = {ctor: 'HoverToasts'};
 var _user$project$Toast_Types$DeleteToast = F2(
 	function (a, b) {
 		return {ctor: 'DeleteToast', _0: a, _1: b};
@@ -14,9 +16,6 @@ var _user$project$Toast_Types$FadeOutToast = F2(
 	function (a, b) {
 		return {ctor: 'FadeOutToast', _0: a, _1: b};
 	});
-var _user$project$Toast_Types$Tick = function (a) {
-	return {ctor: 'Tick', _0: a};
-};
 var _user$project$Toast_Types$ClickToast = function (a) {
 	return {ctor: 'ClickToast', _0: a};
 };

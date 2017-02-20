@@ -1,54 +1,108 @@
 module Toast.Update exposing (..)
 
-import Toast.Ports exposing (..)
 import Toast.Types exposing (..)
 import Task exposing (..)
 import Process exposing (sleep)
-import Time exposing (Time, second)
-
+import Dict as Dict
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         AddToast toast ->
             let
-                expiresAt =
-                    model.currentTime + (5 * second)
-                newToast =
-                    { toast | expires = expiresAt }
-                newToasts =
-                    model.toasts ++ [newToast]
+                newDict =
+                    Dict.insert "321" toast model.toastsDict
             in
-                ( { model | toasts = newToasts }, Cmd.batch [ fadeOutToast newToast, deleteToast newToast ] )
+                ( { model | toastsDict = newDict }, fadeOutToast toast )
+
         ClickToast toasts ->
             ( model, Cmd.none )
-        Tick time ->
-            ( { model | currentTime = time }, Cmd.none )
         FadeOutToast toast _ ->
-            let
-                newToasts =
-                    List.map (changeClass toast) model.toasts
-            in
-                ( { model | toasts = newToasts }, Cmd.none )
-
+            case model.hovering of
+                True ->
+                    ( model, Cmd.none)
+                False ->
+                    let
+                        newDict =
+                            Dict.update "123" setPendDelete model.toastsDict
+                    in
+                        ( { model | toastsDict = newDict }, deleteToast toast)
         DeleteToast toast _ ->
             let
-                newToasts =
-                    List.filter (\t -> t.expires /= toast.expires) model.toasts
+                newDict =
+                    Dict.remove "123" model.toastsDict
             in
-                ( { model | toasts = newToasts }, Cmd.none )
+                ( { model | toastsDict = newDict }, Cmd.none )
+        HoverToasts ->
+            ( { model | hovering = True }, Cmd.none )
+        UnhoverToasts ->
+            ( { model | hovering = False }, Cmd.batch (bulkTask model.toasts) )
+
 
 fadeOutToast : Toast -> Cmd Msg
 fadeOutToast toast =
-    Task.perform (FadeOutToast toast) (sleep 4800)
+    Task.perform (FadeOutToast toast) (sleep 3000)
 
 deleteToast : Toast -> Cmd Msg
 deleteToast toast =
-    Task.perform (DeleteToast toast) (sleep 5000)
+    Task.perform (DeleteToast toast) (sleep 200)
 
-changeClass : Toast -> Toast -> Toast
-changeClass newToast toast =
-    if newToast == toast then
-        { toast | pendingDelete = True }
-    else
-        toast
+
+
+findAndTrashToast : Model -> Toast -> Toasts
+findAndTrashToast model toast =
+    List.map (maybeTrash toast) model.toasts
+
+
+maybeTrash : Toast -> Toast -> Toast
+maybeTrash toastToDelete toast =
+    case toastToDelete == toast of
+        True ->
+            trashToast toast
+        False ->
+            toast
+
+
+cleanupToasts : Model -> Model
+cleanupToasts model =
+    let
+        newToasts =
+            List.map (cleanupToast model) model.toasts
+    in
+        { model | toasts = newToasts }
+
+
+cleanupToast : Model -> Toast -> Toast
+cleanupToast model toast =
+    case toastExpired model toast of
+        True ->
+            trashToast toast
+        False ->
+            toast
+
+
+toastExpired : Model -> Toast -> Bool
+toastExpired model toast =
+    model.currentTime > toast.expires
+
+
+trashToast : Toast -> Toast
+trashToast toast =
+    { toast | pendingDelete = True }
+
+
+bulkTask : Toasts -> List (Cmd Msg)
+bulkTask toasts =
+    List.map fadeOutToast toasts
+
+setPendDelete : Maybe Toast -> Maybe Toast
+setPendDelete toast =
+    case toast of
+        Just toast ->
+            let
+                newToast =
+                    { toast | pendingDelete = True }
+            in
+                Just newToast
+        Nothing ->
+            Nothing
