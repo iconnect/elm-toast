@@ -9,49 +9,6 @@ var _user$project$Toast_Update$setPendDelete = function (toast) {
 		return _elm_lang$core$Maybe$Nothing;
 	}
 };
-var _user$project$Toast_Update$trashToast = function (toast) {
-	return _elm_lang$core$Native_Utils.update(
-		toast,
-		{pendingDelete: true});
-};
-var _user$project$Toast_Update$toastExpired = F2(
-	function (model, toast) {
-		return _elm_lang$core$Native_Utils.cmp(model.currentTime, toast.expires) > 0;
-	});
-var _user$project$Toast_Update$cleanupToast = F2(
-	function (model, toast) {
-		var _p1 = A2(_user$project$Toast_Update$toastExpired, model, toast);
-		if (_p1 === true) {
-			return _user$project$Toast_Update$trashToast(toast);
-		} else {
-			return toast;
-		}
-	});
-var _user$project$Toast_Update$cleanupToasts = function (model) {
-	var newToasts = A2(
-		_elm_lang$core$List$map,
-		_user$project$Toast_Update$cleanupToast(model),
-		model.toasts);
-	return _elm_lang$core$Native_Utils.update(
-		model,
-		{toasts: newToasts});
-};
-var _user$project$Toast_Update$maybeTrash = F2(
-	function (toastToDelete, toast) {
-		var _p2 = _elm_lang$core$Native_Utils.eq(toastToDelete, toast);
-		if (_p2 === true) {
-			return _user$project$Toast_Update$trashToast(toast);
-		} else {
-			return toast;
-		}
-	});
-var _user$project$Toast_Update$findAndTrashToast = F2(
-	function (model, toast) {
-		return A2(
-			_elm_lang$core$List$map,
-			_user$project$Toast_Update$maybeTrash(toast),
-			model.toasts);
-	});
 var _user$project$Toast_Update$deleteToast = function (toast) {
 	return A2(
 		_elm_lang$core$Task$perform,
@@ -65,7 +22,13 @@ var _user$project$Toast_Update$fadeOutToast = function (toast) {
 		_elm_lang$core$Process$sleep(3000));
 };
 var _user$project$Toast_Update$bulkTask = function (toasts) {
-	return A2(_elm_lang$core$List$map, _user$project$Toast_Update$fadeOutToast, toasts);
+	return A2(
+		_elm_lang$core$List$map,
+		function (_p1) {
+			var _p2 = _p1;
+			return _user$project$Toast_Update$fadeOutToast(_p2._1);
+		},
+		_elm_lang$core$Dict$toList(toasts));
 };
 var _user$project$Toast_Update$update = F2(
 	function (msg, model) {
@@ -73,12 +36,12 @@ var _user$project$Toast_Update$update = F2(
 		switch (_p3.ctor) {
 			case 'AddToast':
 				var _p4 = _p3._0;
-				var newDict = A3(_elm_lang$core$Dict$insert, '321', _p4, model.toastsDict);
+				var toasts = A3(_elm_lang$core$Dict$insert, '321', _p4, model.toasts);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{toastsDict: newDict}),
+						{toasts: toasts}),
 					_1: _user$project$Toast_Update$fadeOutToast(_p4)
 				};
 			case 'ClickToast':
@@ -88,22 +51,22 @@ var _user$project$Toast_Update$update = F2(
 				if (_p5 === true) {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
-					var newDict = A3(_elm_lang$core$Dict$update, '123', _user$project$Toast_Update$setPendDelete, model.toastsDict);
+					var toasts = A3(_elm_lang$core$Dict$update, '321', _user$project$Toast_Update$setPendDelete, model.toasts);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{toastsDict: newDict}),
+							{toasts: toasts}),
 						_1: _user$project$Toast_Update$deleteToast(_p3._0)
 					};
 				}
 			case 'DeleteToast':
-				var newDict = A2(_elm_lang$core$Dict$remove, '123', model.toastsDict);
+				var toasts = A2(_elm_lang$core$Dict$remove, '321', model.toasts);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{toastsDict: newDict}),
+						{toasts: toasts}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'HoverToasts':

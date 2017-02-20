@@ -10,10 +10,10 @@ update msg model =
     case msg of
         AddToast toast ->
             let
-                newDict =
-                    Dict.insert "321" toast model.toastsDict
+                toasts =
+                    Dict.insert "321" toast model.toasts
             in
-                ( { model | toastsDict = newDict }, fadeOutToast toast )
+                ( { model | toasts = toasts }, fadeOutToast toast )
 
         ClickToast toasts ->
             ( model, Cmd.none )
@@ -23,16 +23,16 @@ update msg model =
                     ( model, Cmd.none)
                 False ->
                     let
-                        newDict =
-                            Dict.update "123" setPendDelete model.toastsDict
+                        toasts =
+                            Dict.update "321" setPendDelete model.toasts
                     in
-                        ( { model | toastsDict = newDict }, deleteToast toast)
+                        ( { model | toasts = toasts }, deleteToast toast)
         DeleteToast toast _ ->
             let
-                newDict =
-                    Dict.remove "123" model.toastsDict
+                toasts =
+                    Dict.remove "321" model.toasts
             in
-                ( { model | toastsDict = newDict }, Cmd.none )
+                ( { model | toasts = toasts }, Cmd.none )
         HoverToasts ->
             ( { model | hovering = True }, Cmd.none )
         UnhoverToasts ->
@@ -47,53 +47,9 @@ deleteToast : Toast -> Cmd Msg
 deleteToast toast =
     Task.perform (DeleteToast toast) (sleep 200)
 
-
-
-findAndTrashToast : Model -> Toast -> Toasts
-findAndTrashToast model toast =
-    List.map (maybeTrash toast) model.toasts
-
-
-maybeTrash : Toast -> Toast -> Toast
-maybeTrash toastToDelete toast =
-    case toastToDelete == toast of
-        True ->
-            trashToast toast
-        False ->
-            toast
-
-
-cleanupToasts : Model -> Model
-cleanupToasts model =
-    let
-        newToasts =
-            List.map (cleanupToast model) model.toasts
-    in
-        { model | toasts = newToasts }
-
-
-cleanupToast : Model -> Toast -> Toast
-cleanupToast model toast =
-    case toastExpired model toast of
-        True ->
-            trashToast toast
-        False ->
-            toast
-
-
-toastExpired : Model -> Toast -> Bool
-toastExpired model toast =
-    model.currentTime > toast.expires
-
-
-trashToast : Toast -> Toast
-trashToast toast =
-    { toast | pendingDelete = True }
-
-
 bulkTask : Toasts -> List (Cmd Msg)
 bulkTask toasts =
-    List.map fadeOutToast toasts
+    List.map (\(_, toast) -> fadeOutToast toast) (Dict.toList toasts)
 
 setPendDelete : Maybe Toast -> Maybe Toast
 setPendDelete toast =

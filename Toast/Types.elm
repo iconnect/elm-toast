@@ -17,15 +17,13 @@ type alias ToastId =
     String
 
 
-type alias Toasts = List Toast
+type alias Toasts = Dict.Dict ToastId Toast
 
-type alias ToastDict = Dict.Dict ToastId Toast
 
 type alias Model =
     { toasts : Toasts
     , currentTime : Float
     , hovering : Bool
-    , toastsDict : ToastDict
     }
 
 type Msg

@@ -87,5 +87,5 @@ var _user$project$Toast_View$view = function (model) {
 				}
 			}
 		},
-		_user$project$Toast_View$viewToasts(model.toastsDict));
+		_user$project$Toast_View$viewToasts(model.toasts));
 };

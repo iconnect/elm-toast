@@ -1,10 +1,5 @@
 var _user$project$Toast_Model$init = {
 	ctor: '_Tuple2',
-	_0: A4(
-		_user$project$Toast_Types$Model,
-		{ctor: '[]'},
-		0,
-		false,
-		_elm_lang$core$Dict$empty),
+	_0: A3(_user$project$Toast_Types$Model, _elm_lang$core$Dict$empty, 0, false),
 	_1: _elm_lang$core$Platform_Cmd$none
 };

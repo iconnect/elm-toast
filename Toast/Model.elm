@@ -6,4 +6,4 @@ import Dict as Dict
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model [] 0 False Dict.empty, Cmd.none )
+    ( Model Dict.empty 0 False, Cmd.none )

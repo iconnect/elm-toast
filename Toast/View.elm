@@ -1,7 +1,6 @@
 module Toast.View exposing (..)
 
 import Toast.Types exposing (..)
-import Uuid as Uuid
 import Dict as Dict
 import Html exposing (..)
 import Html.Attributes exposing (class, src, id, classList)
@@ -28,4 +27,4 @@ viewToasts toasts =
 view : Model -> Html Msg
 view model =
     div [ class "top-right", id "toast-container", onMouseEnter HoverToasts, onMouseLeave UnhoverToasts ]
-        <| viewToasts model.toastsDict
+        <| viewToasts model.toasts
