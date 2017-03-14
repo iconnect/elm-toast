@@ -1,9 +1,8 @@
-* {
+html {
   font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  /*background-color: darkgrey;*/
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -91,13 +90,13 @@ body {
 /*Toast animations*/
 
 @keyframes growFromNothing {
-    0%   { margin-top: -100%; }
-    100% { margin-top: 0%;    }
+  0%   { margin-top: -100%; }
+  100% { margin-top: 0%;    }
 }
 
 @keyframes shrinkToNothing {
-  0%    { margin-top: 0%;    }
-  1000% { margin-top: -100%; }
+  0%   { margin-top: 0%;    }
+  100% { margin-top: -100%; }
 }
 
 @keyframes slideInFromBelow {
@@ -177,11 +176,14 @@ body {
 
 .toast-header {
   font-size: 1.2em;
-  line-height: 30px;
-  min-height: 30px;
+  margin-bottom: 5px;
 }
 
 .toast-body {
   font-size: 0.9em;
   height: calc(100% - 30px);
+}
+
+.toast-header:empty, .toast-body:empty {
+  display: none;
 }
