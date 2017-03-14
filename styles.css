@@ -43,10 +43,6 @@ body {
     right: 50px;
     top: auto;
   }
-
-  .toast {
-    animation: fadeInFromBelow 200ms;
-  }
 }
 
 @media (max-width: 499px) {
@@ -75,33 +71,61 @@ body {
   }
 }
 
-
-/*Animations*/
-
-@keyframes fadeInFromBelow {
-  0%   { opacity: 0; transform: translateY(100%); }
-  100%  { opacity: 0.8; transform: translateY(0); }
-}
-
 /*Toast*/
 
 .toast {
-  animation: fadeInFromBelow 200ms;
   background-color: white;
   border-radius: 5px;
   box-shadow: 0px 0px 2px 2px #dddddd;
   margin-bottom: 10px;
   overflow: hidden;
   user-select: none;
-  transition: all 200ms;
+  transition: margin 200ms;
 }
 
 .toast.remove {
   opacity: 0;
+  transition: opacity 200ms;
 }
 
 .toast:last-child {
   margin: 0;
+}
+
+
+/*Toast animations*/
+
+@keyframes growFromNothing {
+    0%   { margin-top: -100%; }
+    100% { margin-top: 0%;    }
+}
+
+@keyframes slideInFromBelow {
+  0%   { transform: translateY(100%); }
+  100% { transform: translateY(0%);   }
+}
+
+@keyframes slideInFromAbove {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(0);     }
+}
+
+@media (min-width: 500px) {
+  .top-left .toast, .top-right .toast {
+    animation: slideInFromBelow 200ms;
+  }
+
+  .bottom-left .toast, .bottom-right .toast {
+    animation: slideInFromBelow 200ms;
+  }
+
+  .bottom-left .toast:last-child::before,
+  .bottom-right .toast:last-child::before {
+    animation: growFromNothing 200ms;
+    content: "";
+    display: block;
+    margin-top: 0%;
+  }
 }
 
 /*Toast content*/
