@@ -21,7 +21,8 @@ var _user$project$Toast_View$viewToast = function (toast) {
 				_elm_lang$html$Html$div,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('toast-content green'),
+					_0: _elm_lang$html$Html_Attributes$class(
+						A2(_elm_lang$core$Basics_ops['++'], 'toast-content ', toast.$class)),
 					_1: {ctor: '[]'}
 				},
 				{

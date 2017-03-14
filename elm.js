@@ -8678,7 +8678,7 @@ var _elm_lang$html$Html_Events$Options = F2(
 
 var _user$project$Toast_Types$Toast = F5(
 	function (a, b, c, d, e) {
-		return {title: a, body: b, url: c, style: d, pendingDelete: e};
+		return {title: a, body: b, url: c, $class: d, pendingDelete: e};
 	});
 var _user$project$Toast_Types$Model = F3(
 	function (a, b, c) {
@@ -8720,16 +8720,16 @@ var _user$project$Toast_Ports$notify = _elm_lang$core$Native_Platform.incomingPo
 						function (url) {
 							return A2(
 								_elm_lang$core$Json_Decode$andThen,
-								function (style) {
+								function ($class) {
 									return A2(
 										_elm_lang$core$Json_Decode$andThen,
 										function (pendingDelete) {
 											return _elm_lang$core$Json_Decode$succeed(
-												{title: title, body: body, url: url, style: style, pendingDelete: pendingDelete});
+												{title: title, body: body, url: url, $class: $class, pendingDelete: pendingDelete});
 										},
 										A2(_elm_lang$core$Json_Decode$field, 'pendingDelete', _elm_lang$core$Json_Decode$bool));
 								},
-								A2(_elm_lang$core$Json_Decode$field, 'style', _elm_lang$core$Json_Decode$string));
+								A2(_elm_lang$core$Json_Decode$field, 'class', _elm_lang$core$Json_Decode$string));
 						},
 						A2(
 							_elm_lang$core$Json_Decode$field,
@@ -8875,7 +8875,8 @@ var _user$project$Toast_View$viewToast = function (toast) {
 				_elm_lang$html$Html$div,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('toast-content green'),
+					_0: _elm_lang$html$Html_Attributes$class(
+						A2(_elm_lang$core$Basics_ops['++'], 'toast-content ', toast.$class)),
 					_1: {ctor: '[]'}
 				},
 				{

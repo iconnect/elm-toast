@@ -1,6 +1,6 @@
 var _user$project$Toast_Types$Toast = F5(
 	function (a, b, c, d, e) {
-		return {title: a, body: b, url: c, style: d, pendingDelete: e};
+		return {title: a, body: b, url: c, $class: d, pendingDelete: e};
 	});
 var _user$project$Toast_Types$Model = F3(
 	function (a, b, c) {

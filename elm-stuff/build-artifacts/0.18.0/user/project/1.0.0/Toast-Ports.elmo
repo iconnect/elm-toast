@@ -11,16 +11,16 @@ var _user$project$Toast_Ports$notify = _elm_lang$core$Native_Platform.incomingPo
 						function (url) {
 							return A2(
 								_elm_lang$core$Json_Decode$andThen,
-								function (style) {
+								function ($class) {
 									return A2(
 										_elm_lang$core$Json_Decode$andThen,
 										function (pendingDelete) {
 											return _elm_lang$core$Json_Decode$succeed(
-												{title: title, body: body, url: url, style: style, pendingDelete: pendingDelete});
+												{title: title, body: body, url: url, $class: $class, pendingDelete: pendingDelete});
 										},
 										A2(_elm_lang$core$Json_Decode$field, 'pendingDelete', _elm_lang$core$Json_Decode$bool));
 								},
-								A2(_elm_lang$core$Json_Decode$field, 'style', _elm_lang$core$Json_Decode$string));
+								A2(_elm_lang$core$Json_Decode$field, 'class', _elm_lang$core$Json_Decode$string));
 						},
 						A2(
 							_elm_lang$core$Json_Decode$field,

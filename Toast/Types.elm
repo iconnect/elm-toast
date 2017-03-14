@@ -6,7 +6,7 @@ type alias Toast =
     { title : String
     , body : String
     , url : Maybe String
-    , style : String
+    , class : String
     , pendingDelete : Bool
     }
 

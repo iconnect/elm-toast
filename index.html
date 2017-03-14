@@ -13,25 +13,25 @@
     <div class="content">
         <div id="lipsum">
             <ul>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li><br>
-                <li>Duis a sem semper, tincidunt turpis et, laoreet massa.</li><br>
-                <li>Nulla eget orci et diam vulputate lobortis sit amet ac tellus.</li><br>
-                <li>Nunc suscipit augue in dolor pellentesque accumsan.</li><br>
-                <li>Nulla ut mi vel leo dapibus bibendum.</li><br>
-                <li>Nulla blandit ex eleifend dolor interdum, sit amet efficitur justo porta.</li><br>
-                <li>Donec a nunc condimentum, dictum nisl ac, faucibus risus.</li><br>
-                <li>Mauris vitae dolor nec enim rutrum blandit.</li><br>
-                <li>In accumsan ante vitae augue venenatis lobortis.</li><br>
-                <li>Pellentesque finibus elit sed turpis tincidunt, vitae iaculis turpis convallis.</li><br>
-                <li>Integer lobortis ipsum et venenatis eleifend.</li><br>
-                <li>In convallis velit ut ipsum vehicula, eu aliquet felis pretium.</li><br>
-                <li>Vestibulum id massa id tortor pellentesque vulputate.</li><br>
-                <li>Donec id felis consequat, ultricies risus vel, varius lacus.</li><br>
-                <li>Nullam id quam ut elit mattis cursus.</li><br>
-                <li>Nulla tincidunt neque sit amet risus rhoncus, vel ultricies dolor faucibus.</li><br>
-                <li>Etiam et quam nec lacus laoreet mollis.</li><br>
-                <li>Quisque nec purus in nisi elementum congue.</li><br>
-                <li>Vivamus et massa ac sem convallis pharetra.</li><br>
+                <li class="red" data-title="Donec a nunc condimentum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li><br>
+                <li class="green" data-title="Lorem ipsum">Duis a sem semper, tincidunt turpis et, laoreet massa.</li><br>
+                <li class="blue" data-title="Mauris">Nulla eget orci et diam vulputate lobortis sit amet ac tellus.</li><br>
+                <li class="green" data-title="Nulla eget">Nunc suscipit augue in dolor pellentesque accumsan.</li><br>
+                <li class="blue" data-title="Quisque nev purus">Nulla ut mi vel leo dapibus bibendum.</li><br>
+                <li class="blue" data-title="Etiam et quam">Nulla blandit ex eleifend dolor interdum, sit amet efficitur justo porta.</li><br>
+                <li class="green" data-title="Nulla ut mi">Donec a nunc condimentum, dictum nisl ac, faucibus risus.</li><br>
+                <li class="red" data-title="Donec a nunc condimentum">Mauris vitae dolor nec enim rutrum blandit.</li><br>
+                <li class="red" data-title="Pellentesque">In accumsan ante vitae augue venenatis lobortis.</li><br>
+                <li class="blue" data-title="Mauris vitae dolor nec enim">Pellentesque finibus elit sed turpis tincidunt, vitae iaculis turpis convallis.</li><br>
+                <li class="red" data-title="In convallis velit">Integer lobortis ipsum et venenatis eleifend.</li><br>
+                <li class="red" data-title="Vestibulum">In convallis velit ut ipsum vehicula, eu aliquet felis pretium.</li><br>
+                <li class="green" data-title="">Vestibulum id massa id tortor pellentesque vulputate.</li><br>
+                <li class="blue" data-title="Nullam id quam">Donec id felis consequat, ultricies risus vel, varius lacus.</li><br>
+                <li class="red" data-title="Quisque">Nullam id quam ut elit mattis cursus.</li><br>
+                <li class="green" data-title="Vivamus et massa">Nulla tincidunt neque sit amet risus rhoncus, vel ultricies dolor faucibus.</li><br>
+                <li class="blue" data-title="Vivamus">Etiam et quam nec lacus laoreet mollis.</li><br>
+                <li class="green" data-title="Pellentesque finibus">Quisque nec purus in nisi elementum congue.</li><br>
+                <li class="blue" data-title="Lorem ipsum dolor">Vivamus et massa ac sem convallis pharetra.</li><br>
             </ul>
             <p></p>
         </div>
@@ -42,11 +42,13 @@
         app = Elm.Main.embed(node);
 
     $("li").on("click", function(e) {
-        var text = $(this).text();
+        var text = $(this).text(),
+            style = this.className,
+            title = $(this).data("title");
         app.ports.notify.send({
-            title: "Testing",
+            title: title,
             body: text,
-            style: "123",
+            class: style,
             url: "www",
             pendingDelete: false
         });
