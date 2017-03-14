@@ -1,5 +1,4 @@
-var _user$project$Toast_Model$init = {
-	ctor: '_Tuple2',
-	_0: A3(_user$project$Toast_Types$Model, _elm_lang$core$Dict$empty, 0, false),
-	_1: _elm_lang$core$Platform_Cmd$none
+var _user$project$Toast_Model$init = function (config) {
+	var model = {toasts: _elm_lang$core$Dict$empty, toastCount: 0, hovering: false, position: config.position};
+	return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 };

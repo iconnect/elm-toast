@@ -8676,13 +8676,16 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _user$project$Toast_Types$Config = function (a) {
+	return {position: a};
+};
 var _user$project$Toast_Types$Toast = F5(
 	function (a, b, c, d, e) {
 		return {title: a, body: b, url: c, $class: d, pendingDelete: e};
 	});
-var _user$project$Toast_Types$Model = F3(
-	function (a, b, c) {
-		return {toasts: a, toastCount: b, hovering: c};
+var _user$project$Toast_Types$Model = F4(
+	function (a, b, c, d) {
+		return {toasts: a, toastCount: b, hovering: c, position: d};
 	});
 var _user$project$Toast_Types$UnhoverToasts = {ctor: 'UnhoverToasts'};
 var _user$project$Toast_Types$HoverToasts = {ctor: 'HoverToasts'};
@@ -8701,10 +8704,9 @@ var _user$project$Toast_Types$AddToast = function (a) {
 	return {ctor: 'AddToast', _0: a};
 };
 
-var _user$project$Toast_Model$init = {
-	ctor: '_Tuple2',
-	_0: A3(_user$project$Toast_Types$Model, _elm_lang$core$Dict$empty, 0, false),
-	_1: _elm_lang$core$Platform_Cmd$none
+var _user$project$Toast_Model$init = function (config) {
+	var model = {toasts: _elm_lang$core$Dict$empty, toastCount: 0, hovering: false, position: config.position};
+	return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 };
 
 var _user$project$Toast_Ports$notify = _elm_lang$core$Native_Platform.incomingPort(
@@ -8927,7 +8929,7 @@ var _user$project$Toast_View$view = function (model) {
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('top-right'),
+			_0: _elm_lang$html$Html_Attributes$class(model.position),
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$id('toast-container'),
@@ -8945,8 +8947,15 @@ var _user$project$Toast_View$view = function (model) {
 		_user$project$Toast_View$viewToasts(model.toasts));
 };
 
-var _user$project$Main$main = _elm_lang$html$Html$program(
-	{init: _user$project$Toast_Model$init, view: _user$project$Toast_View$view, update: _user$project$Toast_Update$update, subscriptions: _user$project$Toast_Ports$subscriptions})();
+var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
+	{init: _user$project$Toast_Model$init, view: _user$project$Toast_View$view, update: _user$project$Toast_Update$update, subscriptions: _user$project$Toast_Ports$subscriptions})(
+	A2(
+		_elm_lang$core$Json_Decode$andThen,
+		function (position) {
+			return _elm_lang$core$Json_Decode$succeed(
+				{position: position});
+		},
+		A2(_elm_lang$core$Json_Decode$field, 'position', _elm_lang$core$Json_Decode$string)));
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};

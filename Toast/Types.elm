@@ -2,6 +2,11 @@ module Toast.Types exposing (..)
 import Dict as Dict
 
 
+type alias Config =
+    { position : String
+    }
+
+
 type alias Toast =
     { title : String
     , body : String
@@ -22,6 +27,7 @@ type alias Model =
     { toasts : Toasts
     , toastCount : Int
     , hovering : Bool
+    , position : String
     }
 
 type Msg

@@ -8,9 +8,9 @@ import Toast.Update exposing (..)
 import Toast.View exposing (..)
 
 
-main : Program Never Model Msg
+main : Program Config Model Msg
 main =
-    program
+    programWithFlags
         { init = init
         , view = view
         , update = update

@@ -26,5 +26,5 @@ viewToasts toasts =
 
 view : Model -> Html Msg
 view model =
-    div [ class "top-right", id "toast-container", onMouseEnter HoverToasts, onMouseLeave UnhoverToasts ]
+    div [ class model.position, id "toast-container", onMouseEnter HoverToasts, onMouseLeave UnhoverToasts ]
         <| viewToasts model.toasts

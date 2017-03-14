@@ -73,7 +73,7 @@ var _user$project$Toast_View$view = function (model) {
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('top-right'),
+			_0: _elm_lang$html$Html_Attributes$class(model.position),
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$id('toast-container'),

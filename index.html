@@ -39,7 +39,7 @@
 </body>
 <script>
     var node = document.getElementById("elm-toast"),
-        app = Elm.Main.embed(node);
+        app = Elm.Main.embed(node, { position: "bottom-left" });
 
     $("li").on("click", function(e) {
         var text = $(this).text(),
