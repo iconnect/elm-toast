@@ -79,13 +79,8 @@ body {
   box-shadow: 0px 0px 2px 2px #dddddd;
   margin-bottom: 10px;
   overflow: hidden;
+  -webkit-transform: translate3d(0px, 0px, 0px);
   user-select: none;
-  transition: margin 200ms;
-}
-
-.toast.remove {
-  opacity: 0;
-  transition: opacity 200ms;
 }
 
 .toast:last-child {
@@ -100,6 +95,11 @@ body {
     100% { margin-top: 0%;    }
 }
 
+@keyframes shrinkToNothing {
+  0%    { margin-top: 0%;    }
+  1000% { margin-top: -100%; }
+}
+
 @keyframes slideInFromBelow {
   0%   { transform: translateY(100%); }
   100% { transform: translateY(0%);   }
@@ -111,12 +111,15 @@ body {
 }
 
 @media (min-width: 500px) {
-  .top-left .toast, .top-right .toast {
-    animation: slideInFromBelow 200ms;
+  .top-left .toast:last-child,
+  .top-right .toast:last-child {
+    /*animation: slideInFromBelow 200ms;*/
   }
 
-  .bottom-left .toast, .bottom-right .toast {
-    animation: slideInFromBelow 200ms;
+  .bottom-left .toast:last-child,
+  .bottom-right .toast:last-child {
+    /*animation: slideInFromBelow 200ms;*/
+    /*transition: margin 200ms;*/
   }
 
   .bottom-left .toast:last-child::before,
@@ -125,6 +128,20 @@ body {
     content: "";
     display: block;
     margin-top: 0%;
+  }
+
+  .toast.remove {
+    box-shadow: 0 0 0 0 #dddddd;
+    margin: 0;
+    opacity: 0;
+    transition: box-shadow 200ms, opacity 200ms, margin 200ms;
+  }
+
+  .toast.remove::before {
+    animation: shrinkToNothing 1s;
+    content: "";
+    display: block;
+    margin-top: -100%;
   }
 }
 
