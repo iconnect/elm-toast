@@ -1,10 +1,10 @@
-var _user$project$Toast_Types$Toast = F6(
-	function (a, b, c, d, e, f) {
-		return {title: a, body: b, url: c, style: d, expires: e, pendingDelete: f};
+var _user$project$Toast_Types$Toast = F5(
+	function (a, b, c, d, e) {
+		return {title: a, body: b, url: c, style: d, pendingDelete: e};
 	});
 var _user$project$Toast_Types$Model = F3(
 	function (a, b, c) {
-		return {toasts: a, currentTime: b, hovering: c};
+		return {toasts: a, toastCount: b, hovering: c};
 	});
 var _user$project$Toast_Types$UnhoverToasts = {ctor: 'UnhoverToasts'};
 var _user$project$Toast_Types$HoverToasts = {ctor: 'HoverToasts'};

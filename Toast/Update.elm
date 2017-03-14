@@ -10,46 +10,70 @@ update msg model =
     case msg of
         AddToast toast ->
             let
+                toastCount =
+                    model.toastCount + 1
+                toastId =
+                    toastCount
                 toasts =
-                    Dict.insert "321" toast model.toasts
+                    Dict.insert toastId toast model.toasts
             in
-                ( { model | toasts = toasts }, fadeOutToast toast )
+                ( { model | toasts = toasts, toastCount = toastCount }
+                , fadeOutToastCmd toastId
+                )
 
         ClickToast toasts ->
             ( model, Cmd.none )
-        FadeOutToast toast _ ->
+
+        FadeOutToast toastId _ ->
             case model.hovering of
                 True ->
                     ( model, Cmd.none)
                 False ->
                     let
                         toasts =
-                            Dict.update "321" setPendDelete model.toasts
+                            Dict.update toastId setPendDelete model.toasts
                     in
-                        ( { model | toasts = toasts }, deleteToast toast)
-        DeleteToast toast _ ->
+                        ( { model | toasts = toasts }
+                        , deleteToastCmd toastId
+                        )
+
+        DeleteToast toastId _ ->
             let
                 toasts =
-                    Dict.remove "321" model.toasts
+                    Dict.remove toastId model.toasts
             in
-                ( { model | toasts = toasts }, Cmd.none )
+                ( { model | toasts = toasts }
+                , Cmd.none
+                )
+
         HoverToasts ->
-            ( { model | hovering = True }, Cmd.none )
+            ( setHovering model True
+            , Cmd.none
+            )
+
         UnhoverToasts ->
-            ( { model | hovering = False }, Cmd.batch (bulkTask model.toasts) )
+            ( setHovering model False
+            , Cmd.batch (restartTasks model.toasts)
+            )
+
+setHovering : Model -> Bool -> Model
+setHovering model bool =
+    { model | hovering = bool }
 
 
-fadeOutToast : Toast -> Cmd Msg
-fadeOutToast toast =
-    Task.perform (FadeOutToast toast) (sleep 3000)
+fadeOutToastCmd : ToastId -> Cmd Msg
+fadeOutToastCmd toastId =
+    Task.perform (FadeOutToast toastId) (sleep 3000)
 
-deleteToast : Toast -> Cmd Msg
-deleteToast toast =
-    Task.perform (DeleteToast toast) (sleep 200)
 
-bulkTask : Toasts -> List (Cmd Msg)
-bulkTask toasts =
-    List.map (\(_, toast) -> fadeOutToast toast) (Dict.toList toasts)
+deleteToastCmd : ToastId -> Cmd Msg
+deleteToastCmd toastId =
+    Task.perform (DeleteToast toastId) (sleep 200)
+
+
+restartTasks : Toasts -> List (Cmd Msg)
+restartTasks toasts =
+    List.map (\(toastId, _) -> fadeOutToastCmd toastId) (Dict.toList toasts)
 
 setPendDelete : Maybe Toast -> Maybe Toast
 setPendDelete toast =

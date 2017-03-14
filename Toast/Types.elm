@@ -1,5 +1,4 @@
 module Toast.Types exposing (..)
-import Time exposing (Time)
 import Dict as Dict
 
 
@@ -8,13 +7,12 @@ type alias Toast =
     , body : String
     , url : Maybe String
     , style : String
-    , expires : Time
     , pendingDelete : Bool
     }
 
 
 type alias ToastId =
-    String
+    Int
 
 
 type alias Toasts = Dict.Dict ToastId Toast
@@ -22,14 +20,14 @@ type alias Toasts = Dict.Dict ToastId Toast
 
 type alias Model =
     { toasts : Toasts
-    , currentTime : Float
+    , toastCount : Int
     , hovering : Bool
     }
 
 type Msg
     = AddToast Toast
     | ClickToast Toast
-    | FadeOutToast Toast ()
-    | DeleteToast Toast ()
+    | FadeOutToast ToastId ()
+    | DeleteToast ToastId ()
     | HoverToasts
     | UnhoverToasts
