@@ -21,8 +21,10 @@ update msg model =
                 , fadeOutToastCmd toastId
                 )
 
+
         ClickToast toasts ->
             ( model, Cmd.none )
+
 
         FadeOutToast toastId _ ->
             case model.hovering of
@@ -36,6 +38,7 @@ update msg model =
                         ( { model | toasts = toasts }
                         , deleteToastCmd toastId
                         )
+
 
         DeleteToast toastId _ ->
             let

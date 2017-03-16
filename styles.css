@@ -17,29 +17,29 @@ body {
 @media (min-width: 500px) {
   #toast-container.top-left {
     bottom: auto;
-    left: 50px;
+    left: 20px;
     right: auto;
-    top: 50px;
+    top: 20px;
   }
 
   #toast-container.top-right {
     bottom: auto;
     left: auto;
-    right: 50px;
-    top: 50px;
+    right: 20px;
+    top: 20px;
   }
 
   #toast-container.bottom-left {
-    bottom: 50px;
-    left: 50px;
+    bottom: 20px;
+    left: 20px;
     right: auto;
     top: auto;
   }
 
   #toast-container.bottom-right {
-    bottom: 50px;
+    bottom: 20px;
     left: auto;
-    right: 50px;
+    right: 20px;
     top: auto;
   }
 }

@@ -30,6 +30,7 @@ type alias Model =
     , position : String
     }
 
+
 type Msg
     = AddToast Toast
     | ClickToast Toast
