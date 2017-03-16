@@ -1,3 +1,6 @@
+var _user$project$Toast_Types$liftToast = function (input) {
+	return {title: input.title, body: input.body, url: input.url, $class: input.$class, pendingDelete: false};
+};
 var _user$project$Toast_Types$Config = function (a) {
 	return {position: a};
 };
@@ -5,6 +8,18 @@ var _user$project$Toast_Types$Toast = F5(
 	function (a, b, c, d, e) {
 		return {title: a, body: b, url: c, $class: d, pendingDelete: e};
 	});
+var _user$project$Toast_Types$InputToast = F4(
+	function (a, b, c, d) {
+		return {title: a, body: b, url: c, $class: d};
+	});
+var _user$project$Toast_Types$toastDecoder = A5(
+	_elm_lang$core$Json_Decode$map4,
+	_user$project$Toast_Types$InputToast,
+	A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'body', _elm_lang$core$Json_Decode$string),
+	_elm_lang$core$Json_Decode$maybe(
+		A2(_elm_lang$core$Json_Decode$field, 'url', _elm_lang$core$Json_Decode$string)),
+	A2(_elm_lang$core$Json_Decode$field, 'class', _elm_lang$core$Json_Decode$string));
 var _user$project$Toast_Types$Model = F4(
 	function (a, b, c, d) {
 		return {toasts: a, toastCount: b, hovering: c, position: d};
