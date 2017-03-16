@@ -10,19 +10,19 @@ type alias Config =
 
 
 type alias Toast =
-    { title : String
-    , body : String
+    { title : Maybe String
+    , body : Maybe String
     , url : Maybe String
-    , class : String
+    , class : Maybe String
     , pendingDelete : Bool
     }
 
 
 type alias InputToast =
-    { title : String
-    , body : String
+    { title : Maybe String
+    , body : Maybe String
     , url : Maybe String
-    , class : String
+    , class : Maybe String
     }
 
 
@@ -39,10 +39,10 @@ liftToast input =
 toastDecoder : Decoder InputToast
 toastDecoder =
     map4 InputToast
-        (field "title" string)
-        (field "body" string)
+        (maybe (field "title" string))
+        (maybe (field "body" string))
         (maybe (field "url" string))
-        (field "class" string)
+        (maybe (field "class" string))
 
 
 type alias ToastId =

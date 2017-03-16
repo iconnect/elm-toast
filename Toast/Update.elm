@@ -26,7 +26,7 @@ update msg model =
                         toasts =
                             Dict.insert toastId toast model.toasts
                     in
-                        ( { model | toasts = toasts, toastCount = toastCount }
+                        Debug.log "" ( { model | toasts = toasts, toastCount = toastCount }
                         , fadeOutToastCmd toastId
                         )
 
