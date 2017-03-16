@@ -4,22 +4,31 @@ import Toast.Types exposing (..)
 import Task exposing (..)
 import Process exposing (sleep)
 import Dict as Dict
+import Json.Decode exposing (decodeValue)
+import Result exposing (Result(..))
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        AddToast toast ->
-            let
-                toastCount =
-                    model.toastCount + 1
-                toastId =
-                    toastCount
-                toasts =
-                    Dict.insert toastId toast model.toasts
-            in
-                ( { model | toasts = toasts, toastCount = toastCount }
-                , fadeOutToastCmd toastId
-                )
+        AddToast value ->
+            case decodeValue toastDecoder value of
+                Err _ ->
+                    (model, Cmd.none)
+                Ok inputToast ->
+                    let
+                        toast =
+                            liftToast inputToast
+
+                        toastCount =
+                            model.toastCount + 1
+                        toastId =
+                            toastCount
+                        toasts =
+                            Dict.insert toastId toast model.toasts
+                    in
+                        ( { model | toasts = toasts, toastCount = toastCount }
+                        , fadeOutToastCmd toastId
+                        )
 
 
         ClickToast toasts ->
