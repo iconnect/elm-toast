@@ -2,3 +2,8 @@
 elm-stuff
 # elm-repl generated files
 repl-temp-*
+# MAC
+.DS_Store
+# elm-live generate files
+elm.js
+test/index.html
