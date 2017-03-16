@@ -26,7 +26,7 @@ update msg model =
                         toasts =
                             Dict.insert toastId toast model.toasts
                     in
-                        Debug.log "" ( { model | toasts = toasts, toastCount = toastCount }
+                        ( { model | toasts = toasts, toastCount = toastCount }
                         , fadeOutToastCmd toastId
                         )
 
@@ -67,6 +67,7 @@ update msg model =
             ( setHovering model False
             , Cmd.batch (restartTasks model.toasts)
             )
+
 
 setHovering : Model -> Bool -> Model
 setHovering model bool =

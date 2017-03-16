@@ -51,14 +51,6 @@
             class: style
         });
     });
-
-    var clicker = setTimeout(clickLi, 1000);
-    function clickLi() {
-        var number = 1 + Math.floor(Math.random() * 3000),
-            randLi = $("li")[Math.floor(Math.random() * $("li").length)];
-        $(randLi).trigger("click");
-        // clicker = setTimeout(clickLi, number);
-    }
 </script>
 
 </html>

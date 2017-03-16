@@ -23,7 +23,7 @@ viewToasts toasts =
 
 viewToast : Toast -> Html Msg
 viewToast toast =
-    div [ viewToastClass toast ][
+    div [ viewToastClass toast ] [
         div [ viewContentClass toast ]
             [ viewContentHeader toast
             , viewContentBody toast
@@ -53,6 +53,7 @@ viewContentHeader toast =
                 [ text toastTitle ]
         Nothing ->
             text ""
+
 
 viewContentBody : Toast -> Html Msg
 viewContentBody toast =
