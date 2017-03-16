@@ -76,7 +76,7 @@ setHovering model bool =
 
 fadeOutToastCmd : ToastId -> Cmd Msg
 fadeOutToastCmd toastId =
-    Task.perform (FadeOutToast toastId) (sleep 30000)
+    Task.perform (FadeOutToast toastId) (sleep 5000)
 
 
 deleteToastCmd : ToastId -> Cmd Msg
