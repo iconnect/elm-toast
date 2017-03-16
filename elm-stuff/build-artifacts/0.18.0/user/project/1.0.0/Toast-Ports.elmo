@@ -1,9 +1,0 @@
-var _user$project$Toast_Ports$notify = _elm_lang$core$Native_Platform.incomingPort('notify', _elm_lang$core$Json_Decode$value);
-var _user$project$Toast_Ports$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$batch(
-		{
-			ctor: '::',
-			_0: _user$project$Toast_Ports$notify(_user$project$Toast_Types$AddToast),
-			_1: {ctor: '[]'}
-		});
-};
