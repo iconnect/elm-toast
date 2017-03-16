@@ -14,9 +14,9 @@
         <div id="lipsum">
             <ul>
                 <li class="red" data-title="Donec a nunc condimentum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li><br>
-                <li class="green" data-title="Lorem ipsum">Duis a sem semper, tincidunt turpis et, laoreet massa.</li><br>
+                <li href="github.com" class="green" data-title="Lorem ipsum">Duis a sem semper, tincidunt turpis et, laoreet massa.</li><br>
                 <li class="blue">Nulla eget orci et diam vulputate lobortis sit amet ac tellus.</li><br>
-                <li class="green" data-title="Nulla eget">Nunc suscipit augue in dolor pellentesque accumsan.</li><br>
+                <li href="/" class="green" data-title="Nulla eget">Nunc suscipit augue in dolor pellentesque accumsan.</li><br>
                 <li class="blue" data-title="Quisque nev purus">Nulla ut mi vel leo dapibus bibendum.</li><br>
                 <li class="blue" data-title="Etiam et quam">Nulla blandit ex eleifend dolor interdum, sit amet efficitur justo porta.</li><br>
                 <li class="green" data-title="Nulla ut mi">Donec a nunc condimentum, dictum nisl ac, faucibus risus.</li><br>
@@ -24,7 +24,7 @@
                 <li class="red" data-title="Pellentesque">In accumsan ante vitae augue venenatis lobortis.</li><br>
                 <li class="blue" data-title="Mauris vitae dolor nec enim">Pellentesque finibus elit sed turpis tincidunt, vitae iaculis turpis convallis.</li><br>
                 <li class="red" data-title="In convallis velit">Integer lobortis ipsum et venenatis eleifend.</li><br>
-                <li class="red" data-title="Vestibulum">In convallis velit ut ipsum vehicula, eu aliquet felis pretium.</li><br>
+                <li href="google.com" class="red" data-title="Vestibulum">In convallis velit ut ipsum vehicula, eu aliquet felis pretium.</li><br>
                 <li class="green" data-title="Donec">Vestibulum id massa id tortor pellentesque vulputate.</li><br>
                 <li class="blue">Donec id felis consequat, ultricies risus vel, varius lacus.</li><br>
                 <li class="red">Nullam id quam ut elit mattis cursus.</li><br>
@@ -44,11 +44,12 @@
     $("li").on("click", function(e) {
         var text = $(this).text(),
             style = this.className,
-            title = $(this).data("title");
+            title = $(this).data("title"),
+            url = $(this).attr("href");
         app.ports.notify.send({
             title: title,
             body: text,
-            class: style
+            url: url
         });
     });
 </script>

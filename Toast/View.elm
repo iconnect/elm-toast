@@ -3,7 +3,7 @@ module Toast.View exposing (..)
 import Toast.Types exposing (..)
 import Dict as Dict
 import Html exposing (..)
-import Html.Attributes exposing (class, src, id, classList)
+import Html.Attributes exposing (class, src, id, classList, href)
 import Html.Events exposing (onClick, onMouseEnter, onMouseLeave)
 
 
@@ -23,11 +23,13 @@ viewToasts toasts =
 
 viewToast : Toast -> Html Msg
 viewToast toast =
-    div [ viewToastClass toast ] [
-        div [ viewContentClass toast ]
+    div [ viewToastClass toast ]
+        [ div
+            [ viewContentClass toast ]
             [ viewContentHeader toast
             , viewContentBody toast
             ]
+        , viewToastLink toast
         ]
 
 
@@ -61,5 +63,13 @@ viewContentBody toast =
         Just toastBody ->
             div [ class "toast-body" ]
                 [ text toastBody ]
+        Nothing ->
+            text ""
+
+viewToastLink : Toast -> Html Msg
+viewToastLink toast =
+    case toast.url of
+        Just toastUrl ->
+            a [ class "link", href toastUrl ] []
         Nothing ->
             text ""
