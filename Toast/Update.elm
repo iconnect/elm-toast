@@ -1,11 +1,13 @@
 module Toast.Update exposing (..)
 
+
 import Toast.Types exposing (..)
-import Task exposing (..)
-import Process exposing (sleep)
-import Dict as Dict
+import Dict
 import Json.Decode exposing (decodeValue)
-import Result exposing (Result(..))
+import Process exposing (sleep)
+import Task exposing (perform)
+import Time exposing (millisecond)
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -24,7 +26,7 @@ update msg model =
                             Dict.insert toastId toast model.toasts
                     in
                         ( { model | toasts = toasts, toastCount = toastCount }
-                        , deleteToastCmd toastId
+                        , deleteToastCmd toastId toast.duration
                         )
 
 
@@ -41,10 +43,12 @@ update msg model =
                         , Cmd.none
                         )
 
+
         HoverToasts ->
             ( setHovering model True
             , Cmd.none
             )
+
 
         UnhoverToasts ->
             ( setHovering model False
@@ -52,16 +56,21 @@ update msg model =
             )
 
 
-setHovering : Model -> Bool -> Model
-setHovering model bool =
-    { model | hovering = bool }
+deleteToastCmd : ToastId -> Duration -> Cmd Msg
+deleteToastCmd toastId duration =
+    perform (DeleteToast toastId) (sleep (toastDuration duration))
 
 
-deleteToastCmd : ToastId -> Cmd Msg
-deleteToastCmd toastId =
-    Task.perform (DeleteToast toastId) (sleep 5000)
+toastDuration : Duration -> Time.Time
+toastDuration duration =
+    millisecond * (Maybe.withDefault 5000 duration)
 
 
 restartTasks : Toasts -> List (Cmd Msg)
 restartTasks toasts =
-    List.map (\(toastId, _) -> deleteToastCmd toastId) (Dict.toList toasts)
+    List.map (\(toastId, t) -> deleteToastCmd toastId t.duration) (Dict.toList toasts)
+
+
+setHovering : Model -> Bool -> Model
+setHovering model bool =
+    { model | hovering = bool }

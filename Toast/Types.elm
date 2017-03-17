@@ -1,7 +1,8 @@
 module Toast.Types exposing (..)
 
-import Dict as Dict
-import Json.Decode exposing (Decoder, Value, at, bool, field, string, map4, maybe)
+
+import Dict
+import Json.Decode exposing (Decoder, Value, field, float, map5, maybe, string)
 
 
 type alias Config =
@@ -14,16 +15,22 @@ type alias Toast =
     , body : Maybe String
     , url : Maybe String
     , class : Maybe String
+    , duration : Duration
     }
 
 
 toastDecoder : Decoder Toast
 toastDecoder =
-    map4 Toast
+    map5 Toast
         (maybe (field "title" string))
         (maybe (field "body" string))
         (maybe (field "url" string))
         (maybe (field "class" string))
+        (maybe (field "duration" float))
+
+
+type alias Duration =
+    Maybe Float
 
 
 type alias ToastId =

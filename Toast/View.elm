@@ -1,9 +1,10 @@
 module Toast.View exposing (..)
 
+
 import Toast.Types exposing (..)
-import Dict as Dict
+import Dict
 import Html exposing (..)
-import Html.Attributes exposing (class, src, id, classList, href)
+import Html.Attributes exposing (class, href, id)
 import Html.Events exposing (onClick, onMouseEnter, onMouseLeave)
 
 
@@ -60,6 +61,7 @@ viewContentBody toast =
                 [ text toastBody ]
         Nothing ->
             text ""
+
 
 viewToastLink : Toast -> Html Msg
 viewToastLink toast =

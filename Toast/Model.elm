@@ -1,8 +1,9 @@
 module Toast.Model exposing (..)
 
-import Toast.Types exposing (..)
 
-import Dict as Dict
+import Toast.Types exposing (..)
+import Dict
+
 
 init : Config -> ( Model, Cmd Msg )
 init config =
