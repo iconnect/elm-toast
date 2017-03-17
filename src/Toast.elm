@@ -1,4 +1,4 @@
-module Main exposing (main)
+module Toast exposing (main)
 
 import Html exposing (..)
 import Toast.Model exposing (..)
