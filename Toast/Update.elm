@@ -14,11 +14,8 @@ update msg model =
             case decodeValue toastDecoder value of
                 Err _ ->
                     (model, Cmd.none)
-                Ok inputToast ->
+                Ok toast ->
                     let
-                        toast =
-                            liftToast inputToast
-
                         toastCount =
                             model.toastCount + 1
                         toastId =
@@ -27,36 +24,22 @@ update msg model =
                             Dict.insert toastId toast model.toasts
                     in
                         ( { model | toasts = toasts, toastCount = toastCount }
-                        , fadeOutToastCmd toastId
+                        , deleteToastCmd toastId
                         )
 
 
-        ClickToast toasts ->
-            ( model, Cmd.none )
-
-
-        FadeOutToast toastId _ ->
+        DeleteToast toastId _ ->
             case model.hovering of
                 True ->
                     ( model, Cmd.none)
                 False ->
                     let
                         toasts =
-                            Dict.update toastId setPendDelete model.toasts
+                            Dict.remove toastId model.toasts
                     in
                         ( { model | toasts = toasts }
-                        , deleteToastCmd toastId
+                        , Cmd.none
                         )
-
-
-        DeleteToast toastId _ ->
-            let
-                toasts =
-                    Dict.remove toastId model.toasts
-            in
-                ( { model | toasts = toasts }
-                , Cmd.none
-                )
 
         HoverToasts ->
             ( setHovering model True
@@ -74,28 +57,11 @@ setHovering model bool =
     { model | hovering = bool }
 
 
-fadeOutToastCmd : ToastId -> Cmd Msg
-fadeOutToastCmd toastId =
-    Task.perform (FadeOutToast toastId) (sleep 5000)
-
-
 deleteToastCmd : ToastId -> Cmd Msg
 deleteToastCmd toastId =
-    Task.perform (DeleteToast toastId) (sleep 200)
+    Task.perform (DeleteToast toastId) (sleep 5000)
 
 
 restartTasks : Toasts -> List (Cmd Msg)
 restartTasks toasts =
-    List.map (\(toastId, _) -> fadeOutToastCmd toastId) (Dict.toList toasts)
-
-setPendDelete : Maybe Toast -> Maybe Toast
-setPendDelete toast =
-    case toast of
-        Just toast ->
-            let
-                newToast =
-                    { toast | pendingDelete = True }
-            in
-                Just newToast
-        Nothing ->
-            Nothing
+    List.map (\(toastId, _) -> deleteToastCmd toastId) (Dict.toList toasts)

@@ -9,8 +9,8 @@ import Html.Events exposing (onClick, onMouseEnter, onMouseLeave)
 
 view : Model -> Html Msg
 view model =
-    div [ class model.position
-        , id "toast-container"
+    div [ id "toast-container"
+        , class model.position
         , onMouseEnter HoverToasts
         , onMouseLeave UnhoverToasts
         ] <| viewToasts model.toasts
@@ -23,7 +23,7 @@ viewToasts toasts =
 
 viewToast : Toast -> Html Msg
 viewToast toast =
-    div [ viewToastClass toast ]
+    div [ class "toast" ]
         [ div
             [ viewContentClass toast ]
             [ viewContentHeader toast
@@ -31,11 +31,6 @@ viewToast toast =
             ]
         , viewToastLink toast
         ]
-
-
-viewToastClass : Toast -> Attribute Msg
-viewToastClass toast =
-    classList [ ("toast", True), ("remove", toast.pendingDelete) ]
 
 
 viewContentClass : Toast -> Attribute Msg

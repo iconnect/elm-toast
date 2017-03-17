@@ -14,31 +14,12 @@ type alias Toast =
     , body : Maybe String
     , url : Maybe String
     , class : Maybe String
-    , pendingDelete : Bool
     }
 
 
-type alias InputToast =
-    { title : Maybe String
-    , body : Maybe String
-    , url : Maybe String
-    , class : Maybe String
-    }
-
-
-liftToast : InputToast -> Toast
-liftToast input =
-    { title = input.title
-    , body = input.body
-    , url = input.url
-    , class = input.class
-    , pendingDelete = False
-    }
-
-
-toastDecoder : Decoder InputToast
+toastDecoder : Decoder Toast
 toastDecoder =
-    map4 InputToast
+    map4 Toast
         (maybe (field "title" string))
         (maybe (field "body" string))
         (maybe (field "url" string))
@@ -63,8 +44,6 @@ type alias Model =
 
 type Msg
     = AddToast Value
-    | ClickToast Toast
-    | FadeOutToast ToastId ()
     | DeleteToast ToastId ()
     | HoverToasts
     | UnhoverToasts
