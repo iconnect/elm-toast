@@ -4,6 +4,7 @@
 <head>
     <title>elm-toast</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="toast.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
     <script type="text/javascript" src="elm.js"></script>
 </head>
@@ -49,6 +50,7 @@
         app.ports.notify.send({
             title: title,
             body: text,
+            class: style,
             url: url
         });
     });
