@@ -116,6 +116,10 @@
   margin-bottom: 5px;
 }
 
+#toast-container .toast-header:only-child {
+  margin-bottom: 0;
+}
+
 #toast-container .toast-body {
   font-size: 0.9em;
   height: calc(100% - 30px);
